@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
+import { addContact } from '../redux/contactsSlice';
+import { selectContacts } from '../redux/contactsSlice';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isContactExists = contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase());
 
-    addContact({ id: nanoid(), name, number });
-    setName('');
-    setNumber('');
+    if (!isContactExists) {
+      dispatch(addContact({ id: nanoid(), name, number }));
+      setName('');
+      setNumber('');
+    } else {
+      console.log('Contact with the same name already exists.');
+    }
   };
 
   return (
