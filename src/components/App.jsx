@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact, selectFilteredContacts } from '../redux/contactsSlice';
